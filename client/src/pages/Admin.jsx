@@ -1,23 +1,28 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
+import {useNavigate} from "react-router-dom";
 import TaskForm from "../components/TaskForm";
+import { TaskContext } from "../context/TaskContext";
+
 
 export default function Admin() {
 
   const [showForm, setShowForm] = useState(false);
+  const {tasks,setTasks} = useContext(TaskContext)
+
+  const handleAddTask = (task) => {
+    setTasks([...tasks,task]);
+  }
+  
+  const navigate = useNavigate();
 
   return (
+    
     <div>
 
       {/* Main Container */}
       <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 flex text-white">
 
-        {/* Sidebar */}
-        <div className="w-20 flex flex-col items-center gap-6 border-r border-white/10 py-6">
-          <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">🏠</div>
-          <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">📋</div>
-          <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">⚙️</div>
-        </div>
-
+       
         {/* Content */}
         <div className="flex-1 p-6">
 
@@ -74,7 +79,10 @@ export default function Admin() {
 
       {/* Modal */}
       {showForm && (
-        <TaskForm onClose={() => setShowForm(false)} />
+        <TaskForm
+         onClose={() => setShowForm(false)}
+         addTask={handleAddTask}
+        />
       )}
 
     </div>
